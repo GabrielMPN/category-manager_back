@@ -1,0 +1,9 @@
+DB=""
+DB_USER=""
+DB_PW=""
+DB_HOST="localhost"
+
+BASIC_AUTH_USER=""
+BASIC_AUTH_PASSWORD=""
+
+PORT=3200

@@ -1,0 +1,150 @@
+openapi: 3.0.0
+info:
+  title: API de Categorias
+  version: 1.0.0
+  description: API para gerenciamento de categorias e suas filhas
+
+paths:
+  /categoriaFilha:
+    post:
+      summary: Cria uma nova categoria filha
+      tags:
+        - CategoriaFilha
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: "Tecnologia"
+                status:
+                  type: string
+                  enum:
+                    - "ATIVO"
+                    - "INATIVO"
+                  example: "ATIVO"
+                idCategoria:
+                  type: integer
+                  example: 1
+        required: true
+      responses:
+        "200":
+          description: Categoria filha criada com sucesso
+        "400":
+          description: Dados inválidos
+        "500":
+          description: Erro interno
+    get:
+      summary: Busca categorias filhas com filtros
+      tags:
+        - CategoriaFilha
+      parameters:
+        - description: Filtros para busca
+          in: query
+          name: where
+          schema:
+            example: '{"search": {"id": "1", "idCategoria": "1"}, "operator": "OR"}'
+            type: string
+        - description: Filtros com busca aproximada
+          in: query
+          name: whereLike
+          schema:
+            example: '{"search": {"nome":"Tec", "idCategoria": "1"}, "operator": "OR"}'
+            type: string
+        - description: Ordenação dos resultados
+          in: query
+          name: order
+          schema:
+            example: '[["id", "DESC"]]'
+            type: string
+        - description: Limite de resultados por página
+          in: query
+          name: limit
+          schema:
+            example: 10
+            type: integer
+        - description: Página atual para paginação
+          in: query
+          name: page
+          schema:
+            example: 1
+            type: integer
+        - description: Colunas a serem retornadas na busca
+          in: query
+          name: attributes
+          schema:
+            example: '["id", "nome", "status"]'
+            type: string
+        - description: Busca o range
+          in: query
+          name: whereBetween
+          schema:
+            example: '{"createdAt":["2024-11-13 03:00:00","2024-11-13 02:59:59"]}'
+            type: string
+      responses:
+        "200":
+          description: Busca realizada com sucesso
+        "500":
+          description: Erro interno
+  /categoriaFilha/{id}:
+    put:
+      summary: Atualiza uma categoria filha existente
+      tags:
+        - CategoriaFilha
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID da categoria filha a ser atualizada
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: "Tecnologia Avançada"
+                status:
+                  type: string
+                  enum:
+                    - "ATIVO"
+                    - "INATIVO"
+                  example: "ATIVO"
+                idCategoria:
+                  type: integer
+                  example: 1
+        required: true
+      responses:
+        "200":
+          description: Categoria filha atualizada com sucesso
+        "404":
+          description: Categoria filha não encontrada
+        "500":
+          description: Erro interno
+    delete:
+      summary: Deleta uma categoria filha existente
+      tags:
+        - CategoriaFilha
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID da categoria filha a ser deletada
+      responses:
+        "200":
+          description: Categoria filha deletada com sucesso
+        "404":
+          description: Categoria filha não encontrada
+        "500":
+          description: Erro interno
+
+tags:
+  - name: CategoriaFilha
+    description: Operações relacionadas a categorias filhas
