@@ -1,29 +1,14 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import db from '../conexaoInterna';
-import { CategoriaFilha } from '../categoriasFilhas/CategoriaFilha';
 
-// Atributos da Categoria
-interface ICategoriaAttributes {
-  id: number;
-  nome: string;
-  nivel: number;
-  status: 'ATIVO' | 'INATIVO';
-  idPai: number | null;
+class Categoria extends Model {
+  public id: number;
+  public nome: string;
+  public nivel: number;
+  public status: 'ATIVO' | 'INATIVO';
+  public idPai: number | null;
 }
 
-// Atributos criáveis da Categoria (sem o 'id' porque ele é gerado automaticamente)
-interface ICategoriaCreationAttributes extends Optional<ICategoriaAttributes, 'id'> {}
-
-// Classe Categoria com tipagem explícita
-class Categoria extends Model<ICategoriaAttributes, ICategoriaCreationAttributes> implements ICategoriaAttributes {
-  public id!: number; // O TypeScript agora sabe que `id` é obrigatório
-  public nome!: string;
-  public nivel!: number;
-  public status!: 'ATIVO' | 'INATIVO';
-  public idPai!: number | null;
-}
-
-// Inicialização do modelo com a tipagem
 Categoria.init({
   id: {
     type: DataTypes.INTEGER,
